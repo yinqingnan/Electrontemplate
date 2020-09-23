@@ -41,3 +41,4 @@ This project was generated with [electron-vue](https://github.com/SimulatedGREG/
     WriteRegExpandStr HKCU "${INSTALL_REGISTRY_KEY}" InstallLocation "D:\electron-builder-start-exe"
 !macroend
 ```
+参考https://www.cnblogs.com/chengxiang123/p/11865173.html
