@@ -1,6 +1,7 @@
 <template>
   <div id="wrapper">
-    <img id="logo" src="~@/assets/logo.png" alt="electron-vue" />
+    <button @click="btn">最小化到托盘</button>
+    <button @click="sendNotification">发送系统通知</button>
     <main>
       <div class="left-side">
         <span class="title">
@@ -49,6 +50,26 @@ export default {
     open(link) {
       this.$electron.shell.openExternal(link);
     },
+    btn() {
+      this.$electron.ipcRenderer.send('hide-main-window');
+    },
+    sendNotification() {
+      const path = require('path');
+      const myNotification = new Notification('附带图像的通知', {
+        body: '通知正文内容',
+        // icon: path.join(__dirname, '../assets/q9.ico'),
+        icon: `${__static}/q9.ico`, //该图片路径必须保存到根目录下的static文件夹内
+      });
+      myNotification.onclick = () => {
+        console.log('通知被点击');
+      };
+    },
+  },
+  mounted() {
+    // 接收主进程传递过来的数据
+    this.$electron.ipcRenderer.on('datamsg', (event, params) => {
+      console.log(params);
+    });
   },
 };
 </script>

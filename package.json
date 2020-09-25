@@ -37,9 +37,9 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "xxxx",
-      "installerIcon": "./build/icons/q1.ico",
-      "uninstallerIcon": "./build/icons/q2.ico",
-      "installerHeaderIcon": "./build/icons/q3.ico",
+      "installerIcon": "./build/icons/icon.ico",
+      "uninstallerIcon": "./build/icons/icon.ico",
+      "installerHeaderIcon": "./build/icons/icon.ico",
       "include": "build/script/installer.nsh"
     },
     "dmg": {
@@ -76,8 +76,8 @@
     }
   },
   "dependencies": {
-    "vue": "^2.5.16",
     "axios": "^0.18.0",
+    "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
