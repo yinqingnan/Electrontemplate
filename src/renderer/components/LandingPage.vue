@@ -2,67 +2,63 @@
   <div id="wrapper">
     <button @click="btn">最小化到托盘</button>
     <button @click="sendNotification">发送系统通知</button>
-    <main>
-      <div class="left-side">
-        <span class="title">
-          Welcome to your new project!
-        </span>
-        <system-information></system-information>
-      </div>
-
-      <div class="right-side">
-        <div class="doc">
-          <div class="title">Getting Started</div>
-          <p>
-            electron-vue comes packed with detailed documentation that covers
-            everything from internal configurations, using the project
-            structure, building your application, and so much more.
-          </p>
-          <button
-            @click="
-              open('https://simulatedgreg.gitbooks.io/electron-vue/content/')
-            "
-          >
-            Read the Docs</button
-          ><br /><br />
-        </div>
-        <div class="doc">
-          <div class="title alt">Other Documentation</div>
-          <button class="alt" @click="open('https://electron.atom.io/docs/')">
-            Electron
-          </button>
-          <button class="alt" @click="open('https://vuejs.org/v2/guide/')">
-            Vue.js
-          </button>
-        </div>
-      </div>
-    </main>
+    <button @click="addck">打开新的一个窗口</button>
   </div>
 </template>
 
 <script>
-import SystemInformation from './LandingPage/SystemInformation';
-
 export default {
   name: 'landing-page',
-  components: { SystemInformation },
+  data() {
+    return {
+      system: null,
+    };
+  },
+  // components: {  },
   methods: {
     open(link) {
       this.$electron.shell.openExternal(link);
     },
     btn() {
-      this.$electron.ipcRenderer.send('hide-main-window');
+      let { system } = this._data;
+
+      if (system == 'Win32') {
+        this.$electron.ipcRenderer.send('hide-main-window');
+      } else if (system == 'Win64') {
+        this.$electron.ipcRenderer.send('hide-main-window');
+      } else if (system == 'Mac') {
+        alert('Mac系统');
+      }
     },
     sendNotification() {
       const path = require('path');
       const myNotification = new Notification('附带图像的通知', {
         body: '通知正文内容',
-        // icon: path.join(__dirname, '../assets/q9.ico'),
         icon: `${__static}/q9.ico`, //该图片路径必须保存到根目录下的static文件夹内
       });
       myNotification.onclick = () => {
         console.log('通知被点击');
       };
+    },
+    IsSystem() {
+      //判断当前系统
+      var agent = navigator.userAgent.toLowerCase();
+      var isMac = /macintosh|mac os x/i.test(navigator.userAgent);
+      if (agent.indexOf('win32') >= 0 || agent.indexOf('wow32') >= 0) {
+        console.log('这是windows32位系统');
+        this.system = 'Win32';
+      }
+      if (agent.indexOf('win64') >= 0 || agent.indexOf('wow64') >= 0) {
+        console.log('这是windows64位系统');
+        this.system = 'Win64';
+      }
+      if (isMac) {
+        console.log('这是mac系统');
+        this.system = 'Mac';
+      }
+    },
+    addck() {
+      this.$electron.ipcRenderer.send('Addwindow', 111111);
     },
   },
   mounted() {
@@ -70,6 +66,10 @@ export default {
     this.$electron.ipcRenderer.on('datamsg', (event, params) => {
       console.log(params);
     });
+    this.IsSystem();
+    let x = window.screen.availWidth - 300 + 5;
+    let y = window.screen.availHeight - 200 + 5;
+    console.log(x, y);
   },
 };
 </script>

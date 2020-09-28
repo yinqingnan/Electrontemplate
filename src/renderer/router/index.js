@@ -4,8 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'landing-page',
       component: require('@/components/LandingPage').default
@@ -13,6 +12,10 @@ export default new Router({
     {
       path: '*',
       redirect: '/'
+    },
+    {
+      path: '/login',
+      component: require('../views/login.vue').default
     }
   ]
 })
