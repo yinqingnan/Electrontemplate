@@ -11,67 +11,68 @@ export default {
   name: 'landing-page',
   data() {
     return {
-      system: null,
-    };
+      system: null
+    }
   },
   // components: {  },
   methods: {
     open(link) {
-      this.$electron.shell.openExternal(link);
+      this.$electron.shell.openExternal(link)
     },
     btn() {
-      let { system } = this._data;
+      let { system } = this._data
 
       if (system == 'Win32') {
-        this.$electron.ipcRenderer.send('hide-main-window');
+        this.$electron.ipcRenderer.send('hide-main-window')
       } else if (system == 'Win64') {
-        this.$electron.ipcRenderer.send('hide-main-window');
+        this.$electron.ipcRenderer.send('hide-main-window')
       } else if (system == 'Mac') {
-        alert('Mac系统');
+        // alert('Mac系统');
+        this.$electron.ipcRenderer.send('min-window')
       }
     },
     sendNotification() {
-      const path = require('path');
+      const path = require('path')
       const myNotification = new Notification('附带图像的通知', {
         body: '通知正文内容',
-        icon: `${__static}/q9.ico`, //该图片路径必须保存到根目录下的static文件夹内
-      });
+        icon: `${__static}/q9.ico` //该图片路径必须保存到根目录下的static文件夹内
+      })
       myNotification.onclick = () => {
-        console.log('通知被点击');
-      };
+        console.log('通知被点击')
+      }
     },
     IsSystem() {
       //判断当前系统
-      var agent = navigator.userAgent.toLowerCase();
-      var isMac = /macintosh|mac os x/i.test(navigator.userAgent);
+      var agent = navigator.userAgent.toLowerCase()
+      var isMac = /macintosh|mac os x/i.test(navigator.userAgent)
       if (agent.indexOf('win32') >= 0 || agent.indexOf('wow32') >= 0) {
-        console.log('这是windows32位系统');
-        this.system = 'Win32';
+        console.log('这是windows32位系统')
+        this.system = 'Win32'
       }
       if (agent.indexOf('win64') >= 0 || agent.indexOf('wow64') >= 0) {
-        console.log('这是windows64位系统');
-        this.system = 'Win64';
+        console.log('这是windows64位系统')
+        this.system = 'Win64'
       }
       if (isMac) {
-        console.log('这是mac系统');
-        this.system = 'Mac';
+        console.log('这是mac系统')
+        this.system = 'Mac'
       }
     },
     addck() {
-      this.$electron.ipcRenderer.send('Addwindow', 111111);
-    },
+      this.$electron.ipcRenderer.send('Addwindow', 111111)
+    }
   },
   mounted() {
     // 接收主进程传递过来的数据
     this.$electron.ipcRenderer.on('datamsg', (event, params) => {
-      console.log(params);
-    });
-    this.IsSystem();
-    let x = window.screen.availWidth - 300 + 5;
-    let y = window.screen.availHeight - 200 + 5;
-    console.log(x, y);
-  },
-};
+      console.log(params)
+    })
+    this.IsSystem()
+    let x = window.screen.availWidth - 300 + 5
+    let y = window.screen.availHeight - 200 + 5
+    console.log(x, y)
+  }
+}
 </script>
 
 <style>
