@@ -45,7 +45,7 @@ function createWindow() {
 
   mainWindow.loadURL(winURL)
   // mainWindow.loadURL(winURL + '#/login')
-  mainWindow.webContents.openDevTools() //打包后开启控制台   不需要可注释
+  mainWindow.webContents.openDevTools() //打包后开启控制台不需要可注释
   mainWindow.on('closed', (e) => {
     mainWindow = null
     e.preventDefault()
